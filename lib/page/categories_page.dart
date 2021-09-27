@@ -9,11 +9,11 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  final CategoriesBloc _newsBloc = CategoriesBloc(CategoriesInitial());
+  final CategoriesBloc _categoryBloc = CategoriesBloc(CategoriesInitial());
 
   @override
   void initState() {
-    _newsBloc.add(GetCategoriesList());
+    _categoryBloc.add(GetCategoriesList());
     super.initState();
   }
 
@@ -44,7 +44,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     return Container(
       margin: EdgeInsets.all(8.0),
       child: BlocProvider(
-        create: (_) => _newsBloc,
+        create: (_) => _categoryBloc,
         child: BlocListener<CategoriesBloc, CategoriesState>(
           listener: (context, state) {
             if (state is CategoriesError) {
@@ -87,10 +87,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
               margin: EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  Text("Country: ${model.categories[index]}"),
-                  Text("Total Confirmed: ${model.categories[index]}"),
-                  Text("Total Deaths: ${model.categories[index]}"),
-                  Text("Total Recovered: ${model.categories[index]}"),
+                  Text("No: ${model.categories[index]}"),
+                  Text("Category: ${model.categories[index]}"),
+                  Text("Image Link: ${model.categories[index]}"),
+                  Text("Description: ${model.categories[index]}"),
                 ],
               ),
             ),

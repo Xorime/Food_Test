@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:food_test/models/categories_model.dart';
 
-class ApiProvider {
+class ApiProviderCategory {
   final Dio _dio = Dio();
   final String _url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
 

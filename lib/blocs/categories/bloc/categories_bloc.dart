@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:food_test/models/categories_model.dart';
-import 'package:food_test/resources/api_repository.dart';
+import 'package:food_test/resources/categories/api_repository_category.dart';
 
 part 'categories_event.dart';
 part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final ApiRepository _apiRepository = ApiRepository();
+  final ApiRepositoryCategory _apiRepository = ApiRepositoryCategory();
 
   CategoriesBloc(CategoriesState initialState) : super(initialState);
 
