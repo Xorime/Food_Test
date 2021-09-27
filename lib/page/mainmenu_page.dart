@@ -1,6 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:food_test/page/categories_page.dart';
 import 'package:food_test/page/favorite_page.dart';
+import 'package:food_test/page/random_page.dart';
+
+class MenusTile {
+  MenusTile({
+    required this.name,
+    required this.function,
+  });
+
+  String name;
+  final VoidCallback function;
+}
+
+List<MenusTile> _menusTileList(BuildContext context) {
+  return <MenusTile>[
+    MenusTile(
+      name: 'List All Meal Categories',
+      function: () {
+        Navigator.of(context).push(MaterialPageRoute<dynamic>(builder: (BuildContext context) => CategoriesPage()));
+      },
+    ),
+    MenusTile(
+        name: 'Random Meal',
+        function: () {
+          Navigator.of(context).push(MaterialPageRoute<dynamic>(builder: (BuildContext context) => RandomPage()));
+        }),
+  ];
+}
+
+Widget _buildMenusTileList(MenusTile menusTile) {
+  return InkWell(
+    onTap: menusTile.function,
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(8)),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                menusTile.name,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
 // ignore: use_key_in_widget_constructors
 class MainMenu extends StatefulWidget {
@@ -14,7 +64,10 @@ class _MainMenuState extends State<MainMenu> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('This'),
+        title: Text(
+          'Select your food',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(
@@ -32,15 +85,20 @@ class _MainMenuState extends State<MainMenu> {
                 );
               },
               borderRadius: BorderRadius.circular(8),
-              focusColor: Colors.white,
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellow,
-                  ),
-                  Text('Favorites')
-                ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black26,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                    ),
+                    Text('Favorites')
+                  ],
+                ),
               ),
             ),
           ),
@@ -56,26 +114,19 @@ class _MainMenuState extends State<MainMenu> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(8),
+          Expanded(
             child: ListView(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CategoriesPage()));
-                  },
-                  child: Card(
-                    color: Colors.grey,
-                    child: ListTile(
-                      title: Center(
-                          child: Text(
-                        'List all meal categories',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      )),
-                    ),
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _menusTileList(context).length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _buildMenusTileList(_menusTileList(context)[index]);
+                    },
                   ),
                 ),
               ],
